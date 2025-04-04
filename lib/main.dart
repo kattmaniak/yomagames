@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dressup.dart';
 import 'planes.dart';
 
 void main() {
@@ -50,6 +51,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text('Pilot\'s Aerobatic Adventure'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DressUpGame()),
+                );
+              },
+              child: const Text('Mortician\'s Deadly Dressup'),
             ),
           ],
         ),

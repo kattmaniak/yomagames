@@ -58,6 +58,12 @@ flutter:
     - assets/images/plane.png
     - assets/images/left.png
     - assets/images/right.png
+    - assets/images/body.png
+    - assets/images/hat.png
+    - assets/images/shirt.png
+    - assets/images/pants.png
+    - assets/images/finalize.png
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
