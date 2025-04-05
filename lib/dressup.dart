@@ -231,6 +231,14 @@ class DressUpGameEngine extends FlameGame {
     add(scoreText);
     finished = true;
 
+    //check score for high score and update if necessary
+    SharedPreferences.getInstance().then((prefs) {
+      int highScore = prefs.getInt('highScoreDressup') ?? 0;
+      if (score > highScore) {
+        prefs.setInt('highScoreDressup', score);
+      }
+    });
+
     for (var clothingPiece in clothes) {
       clothingPiece.canDrag = false;
     }
