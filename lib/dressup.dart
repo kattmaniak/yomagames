@@ -8,18 +8,29 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
-import 'package:flame/cache.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DressUpGame extends StatelessWidget {
+class DressUpGame extends StatefulWidget {
   const DressUpGame({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    int highScore = 0;
+  State<DressUpGame> createState() => _DressUpGameState();
+}
+
+class _DressUpGameState extends State<DressUpGame> {
+  int _highScore = 0;
+
+  _DressUpGameState() {
+    // Load the high score from storage
     SharedPreferences.getInstance().then((prefs) {
-      highScore = prefs.getInt('highScoreDressUp') ?? 0;
+      setState(() {
+        _highScore = prefs.getInt('highScoreDressup') ?? 0;
+      });
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
@@ -37,7 +48,7 @@ class DressUpGame extends StatelessWidget {
               },
               child: const Text('Play'),
             ),
-            Text('High score: $highScore'),
+            Text('High score: $_highScore'),
           ],
         ),
       ),

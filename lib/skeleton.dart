@@ -3,15 +3,27 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SkeletonGame extends StatelessWidget {
+class SkeletonGame extends StatefulWidget {
   const SkeletonGame({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    int highScore = 0;
+  State<SkeletonGame> createState() => _SkeletonGameState();
+}
+
+class _SkeletonGameState extends State<SkeletonGame> {
+  int highScore = 0;
+
+  _SkeletonGameState() {
+    // Load the high score from storage
     SharedPreferences.getInstance().then((prefs) {
-      highScore = prefs.getInt('highScoreSkeleton') ?? 0;
+      setState(() {
+        highScore = prefs.getInt('highScoreSkeleton') ?? 0;
+      });
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(

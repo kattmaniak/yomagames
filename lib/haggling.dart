@@ -7,22 +7,34 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HagglingGame extends StatelessWidget {
+class HagglingGame extends StatefulWidget {
   const HagglingGame({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    int highScore = 0;
+  State<HagglingGame> createState() => _HagglingGameState();
+}
+
+class _HagglingGameState extends State<HagglingGame> {
+  int _highScore = 0;
+
+  _HagglingGameState() {
+    // Load the high score from storage
     SharedPreferences.getInstance().then((prefs) {
-      highScore = prefs.getInt('highScoreHaggling') ?? 0;
+      setState(() {
+        _highScore = prefs.getInt('highScoreHaggling') ?? 0;
+      });
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Welcome to Salesman\'s Tough Customer!',
+              'Welcome to the Salesman\'s Tough Customer!',
             ),
             ElevatedButton(
               onPressed: () {
@@ -33,7 +45,7 @@ class HagglingGame extends StatelessWidget {
               },
               child: const Text('Play'),
             ),
-            Text('High score: $highScore'),
+            Text('High score: $_highScore'),
           ],
         ),
       ),
