@@ -39,7 +39,7 @@ class _BoltsGameState extends State<BoltsGame> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Welcome to //Bolts Game Title//!',
+              'Welcome to Mechanic\'s Messy Machines!',
             ),
             ElevatedButton(
               onPressed: () {
@@ -68,7 +68,7 @@ class BoltsGameScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Bolts Game Title'),
+            const Text('Mechanic\'s Messy Machines'),
             SizedBox(
               height: 900,
               width: 400,

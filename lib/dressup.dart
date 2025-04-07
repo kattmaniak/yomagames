@@ -296,6 +296,8 @@ class ClothingPiece extends SpriteComponent with DragCallbacks {
   FutureOr<void> onLoad() {
     opacity = 0.5;
     return super.onLoad();
+    //TODO add colors, scoring by colors
+    // using flame decorators grayscale and then tint
   }
 
   final Sprite sprite;
