@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yomagames/bolts.dart';
+import 'package:yomagames/carving.dart';
 import 'package:yomagames/haggling.dart';
 import 'dressup.dart';
 import 'planes.dart';
@@ -80,6 +81,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text('Mechanic\'s Messy Machines'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CarvingGame()),
+                );
+              },
+              child: const Text('Ice Sculptor\'s Daring Creation'),
             ),
           ],
         ),

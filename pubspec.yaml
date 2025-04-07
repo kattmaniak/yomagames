@@ -72,6 +72,9 @@ flutter:
     - assets/images/screw_failure.png
     - assets/audio/beat.wav
 
+    - assets/images/ice_sculpture.png
+    - assets/images/ice_block.png
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
