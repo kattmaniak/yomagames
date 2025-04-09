@@ -3,6 +3,7 @@ import 'package:yomagames/bolts.dart';
 import 'package:yomagames/carving.dart';
 import 'package:yomagames/haggling.dart';
 import 'package:yomagames/manager.dart';
+import 'package:yomagames/words.dart';
 import 'dressup.dart';
 import 'planes.dart';
 
@@ -100,6 +101,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text('Manager\'s Earnest Support'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WordsGame()),
+                );
+              },
+              child: const Text('Rhetorician\'s Exciting Scramble'),
             ),
           ],
         ),
