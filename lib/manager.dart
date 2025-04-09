@@ -34,7 +34,7 @@ class _ManagerGameState extends State<ManagerGame> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Welcome to //Manager Game Title//!',
+              'Welcome to Manager\'s Earnest Support!',
             ),
             ElevatedButton(
               onPressed: () {
@@ -63,7 +63,7 @@ class ManagerGameScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Manager Game Title'),
+            const Text('Manager\'s Earnest Support'),
             SizedBox(
               height: 700,
               width: 400,
