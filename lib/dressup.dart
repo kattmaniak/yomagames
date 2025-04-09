@@ -68,7 +68,7 @@ class DressUpGameScreen extends StatelessWidget {
           children: <Widget>[
             const Text('Mortician\'s Deadly Dressup'),
             SizedBox(
-              height: 900,
+              height: 700,
               width: 400,
               child: GameWidget(
                 game: DressUpGameEngine(),

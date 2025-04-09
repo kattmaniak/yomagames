@@ -65,7 +65,7 @@ class HagglingGameScreen extends StatelessWidget {
           children: <Widget>[
             const Text('Salesman\'s Tough Customer'),
             SizedBox(
-              height: 900,
+              height: 700,
               width: 400,
               child: GameWidget(
                 game: HagglingGameEngine(),
@@ -161,6 +161,9 @@ class HagglingGameEngine extends FlameGame {
   }
   
   final Random random = Random();
+  
+  late TextButtonComponent talkUpButton;
+  late TextButtonComponent finalizeButton;
 
   @override
   Color backgroundColor() => const Color(0xFFeeeeee);
@@ -250,14 +253,14 @@ class HagglingGameEngine extends FlameGame {
     )
     ..position = Vector2(250, 460);
 
-    final talkUpButton = TextButtonComponent(
+    talkUpButton = TextButtonComponent(
       text: 'Talk Up Customer',
       buttonColor: const Color(0xFF2196F3),
       onPressed: talkUpCustomer,
     )..position = Vector2(200, 600);
 
     
-    final finalizeButton = TextButtonComponent(
+    finalizeButton = TextButtonComponent(
       text: 'Make Final Offer',
       buttonColor: const Color(0xFF2196F3),
       onPressed: finalizeOffer,
@@ -378,7 +381,7 @@ class HagglingGameEngine extends FlameGame {
   void showResult() {
     final resultText = TextComponent(
       text: 'Score: $score',
-      position: Vector2(200, 750),
+      position: Vector2(200, 550),
       textRenderer: TextPaint(style: const TextStyle(fontSize: 32, color: Colors.blue)),
       anchor: Anchor.center,
     );
@@ -388,8 +391,12 @@ class HagglingGameEngine extends FlameGame {
       buttonColor: const Color(0xFF4CAF50),
       onPressed: resetGame,
     )
-    ..position = Vector2(200, 800);
-    
+    ..position = Vector2(200, 600);
+
+    remove(talkUpButton);
+    remove(talkUpText);
+    remove(finalizeButton);
+
     add(resultText);
     add(playAgainButton);
   }

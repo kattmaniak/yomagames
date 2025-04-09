@@ -66,7 +66,7 @@ class CarvingGameScreen extends StatelessWidget {
           children: <Widget>[
             const Text('Ice Sculptor\'s Daring Creation'),
             SizedBox(
-              height: 900,
+              height: 700,
               width: 400,
               child: GameWidget(
                 game: CarvingGameEngine(),
@@ -111,21 +111,21 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     // Load sculpture sprite (initially invisible)
     sculpture = SpriteComponent()
       ..sprite = await Sprite.load('ice_sculpture.png')
-      ..size = Vector2(300, 500)
-      ..position = Vector2(200, 300)
+      ..size = Vector2(300, 400)
+      ..position = Vector2(200, 250)
       ..anchor = Anchor.topCenter;
     
     // Load ice block sprite
     iceBlock = SpriteComponent()
       ..sprite = await Sprite.load('ice_block.png')
-      ..size = Vector2(300, 500)
-      ..position = Vector2(200, 800)
+      ..size = Vector2(300, 400)
+      ..position = Vector2(200, 650)
       ..anchor = Anchor.bottomCenter;
     
     // Add speed meter
     speedText = TextComponent(
       text: 'Carving Speed: 0',
-      position: Vector2(200, 250),
+      position: Vector2(200, 220),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 24,
@@ -139,7 +139,7 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     // Add score text
     scoreText = TextComponent(
       text: 'Time: 0.0s',
-      position: Vector2(200, 200),
+      position: Vector2(200, 185),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 20,
@@ -339,7 +339,7 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     
     final finalScoreText = TextComponent(
       text: 'Final Score: $score',
-      position: Vector2(200, 300),
+      position: Vector2(200, 50),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 24,
@@ -361,6 +361,7 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
       anchor: Anchor.center,
     );
     
+    remove(instructionText);
     add(successText);
     add(finalScoreText);
     add(retryText);
@@ -379,7 +380,6 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     remove(sculpture);
     remove(speedText);
     remove(scoreText);
-    remove(instructionText);
     removeAll(children.whereType<TextComponent>());
     
     gameStarted = false;

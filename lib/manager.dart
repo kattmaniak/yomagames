@@ -65,7 +65,7 @@ class ManagerGameScreen extends StatelessWidget {
           children: <Widget>[
             const Text('Manager Game Title'),
             SizedBox(
-              height: 900,
+              height: 700,
               width: 400,
               child: GameWidget(
                 game: ManagerGameEngine(),
@@ -386,13 +386,13 @@ final List<Scenario> allScenarios = [
       problem: 'I feel underutilized and bored with my current assignments. How can I bring more value?',
       options: [
         'Maybe you just need to try harder.',
-        'It might be best to stick with what you know.'
+        'It might be best to stick with what you know.',
         'Let\'s discuss your strengths and assign you to a more challenging project.',
       ],
       correctOption: 2,
       outcomes: [
         'Elliot remains disengaged and unmotivated.',
-        'Elliot continues to feel unchallenged and uninspired.'
+        'Elliot continues to feel unchallenged and uninspired.',
         'Elliot feels valued and begins to thrive in new tasks.',
       ],
     ),
@@ -408,7 +408,7 @@ final List<Scenario> allScenarios = [
       outcomes: [
         'Sienna gains trust through accountability.',
         'Sienna\'s inaction further erodes client confidence.',
-        'Shifting blame only deepens the underlying issues.'
+        'Shifting blame only deepens the underlying issues.',
       ],
     ),
     Scenario(
@@ -417,13 +417,13 @@ final List<Scenario> allScenarios = [
       options: [
         'Ignore the tension and hope it resolves itself.',
         'Organize a team meeting to address the issues and mediate conflicts.',
-        'Advise individuals privately without tackling the group dynamic.'
+        'Advise individuals privately without tackling the group dynamic.',
       ],
       correctOption: 1,
       outcomes: [
         'Ignoring the issue causes the tension to worsen.',
         'The team feels heard and begins to resolve their differences.',
-        'Private advice fails to mend the collective discord.'
+        'Private advice fails to mend the collective discord.',
       ],
     ),
     Scenario(
@@ -438,7 +438,7 @@ final List<Scenario> allScenarios = [
       outcomes: [
         'Kai continues to struggle and risks burnout.',
         'Kai gains necessary support and improves productivity.',
-        'The unsustainable pressure eventually takes its toll.'
+        'The unsustainable pressure eventually takes its toll.',
       ],
     ),
     Scenario(
@@ -446,13 +446,13 @@ final List<Scenario> allScenarios = [
       problem: 'I have a new innovative idea, but I\'m hesitant about presenting it to senior management. What should I do?',
       options: [
         'Wait until you have every detail ironed out.',
-        'Share it casually with peers before going higher up.'
+        'Share it casually with peers before going higher up.',
         'Prepare a concise proposal and seek feedback to refine it further.',
       ],
       correctOption: 2,
       outcomes: [
         'Delaying too long might make you miss the opportunity.',
-        'Casual sharing fails to make the necessary impact.'
+        'Casual sharing fails to make the necessary impact.',
         'Cameron\'s well-prepared proposal gains attention and sparks interest.',
       ],
     ),

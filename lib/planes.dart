@@ -69,7 +69,7 @@ class PlanesGameScreen extends StatelessWidget {
           children: <Widget>[
             const Text('Pilot\'s Aerobatic Adventure'),
             SizedBox(
-              height: 900,
+              height: 700,
               width: 400,
               child: GameWidget(
                 game: PlanesGameEngine(),
@@ -114,7 +114,7 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
     _spriteSheet = SpriteSheet(image: await Flame.images.load('plane.png'), srcSize: Vector2(32,32));
     _plane = SpriteAnimationComponent(
       animation: _spriteSheet.createAnimation(row: 0, stepTime: 0.2),
-      position: Vector2(136, 336),
+      position: Vector2(136, 186),
       size: Vector2.all(128),
       playing: false
     );
@@ -125,14 +125,14 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
 
     _scoreText = TextComponent(
       text: "Score: $score",
-      position: Vector2(200, 900-8),
+      position: Vector2(200, 700-8),
       scale: Vector2(2,2),
       anchor: Anchor.bottomCenter,
     );
     add(_scoreText);
 
     _leftButton = SpriteButtonComponent(
-      position: Vector2(68, 900-72-64-64),
+      position: Vector2(68, 700-72-64-64),
       size: Vector2.all(128),
       onPressed: handleLeft,
       button: Sprite(
@@ -149,7 +149,7 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
     );
 
     _rightButton = SpriteButtonComponent(
-      position: Vector2(400-68, 900-72-64-64),
+      position: Vector2(400-68, 700-72-64-64),
       size: Vector2.all(128),
       onPressed: handleRight,
       button: Sprite(
@@ -166,7 +166,7 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
     );
 
     _upButton = SpriteButtonComponent(
-      position: Vector2(200, 900-68-8-128-64),
+      position: Vector2(200, 700-68-8-128-64),
       size: Vector2.all(128),
       onPressed: handleUp,
       button: Sprite(
@@ -184,7 +184,7 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
     );
 
     _downButton = SpriteButtonComponent(
-      position: Vector2(200, 900-72-64),
+      position: Vector2(200, 700-72-64),
       size: Vector2.all(128),
       onPressed: handleDown,
       button: Sprite(
@@ -256,7 +256,7 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
       }
       _commandText = TextComponent(
         text: commands.map((e) => _commands[e]).join(" "),
-        position: Vector2(200, 200),
+        position: Vector2(200, 150),
         scale: Vector2(2,2),
         anchor: Anchor.bottomCenter,
       );

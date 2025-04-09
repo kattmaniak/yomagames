@@ -70,7 +70,7 @@ class BoltsGameScreen extends StatelessWidget {
           children: <Widget>[
             const Text('Mechanic\'s Messy Machines'),
             SizedBox(
-              height: 900,
+              height: 700,
               width: 400,
               child: GameWidget(
                 game: BoltsGameEngine(),
@@ -113,7 +113,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
     // Load background
     background = SpriteComponent()
       ..sprite = await Sprite.load('metal_panel.png')
-      ..size = Vector2(400, 900)
+      ..size = Vector2(400, 700)
       ..position = Vector2(0, 0);
     add(background);
     
@@ -198,7 +198,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
   void spawnBolt() {
     // Create a new bolt at a random position
     final x = 50 + random.nextDouble() * 300;
-    final y = 100 + random.nextDouble() * 650;
+    final y = 100 + random.nextDouble() * 550;
     
     final bolt = Bolt()
       ..position = Vector2(x, y)
