@@ -76,6 +76,33 @@ flutter:
     - assets/images/ice_sculpture.png
     - assets/images/ice_block.png
 
+    - assets/images/positive_button.png
+    - assets/images/positive_button_down.png
+    - assets/images/negative_button.png
+    - assets/images/negative_button_down.png
+    - assets/images/neutral_button.png
+    - assets/images/neutral_button_down.png
+    - assets/images/reveal_button.png
+    - assets/images/reveal_button_down.png
+    - assets/images/tarot_fool.jpg
+    - assets/images/tarot_magician.jpg
+    - assets/images/tarot_death.jpg
+    - assets/images/tarot_hanged_man.jpg
+    - assets/images/tarot_wheel.jpg
+    - assets/images/tarot_moon.jpg
+    - assets/images/tarot_sun.jpg
+    - assets/images/tarot_star.jpg
+    - assets/images/tarot_lovers.jpg
+    - assets/images/tarot_temperance.jpg
+    - assets/images/tarot_tower.jpg
+    - assets/images/tarot_justice.jpg
+    - assets/images/success_effect.png
+    - assets/images/failure_effect.png
+    - assets/images/divination_table.png
+    - assets/images/magic_ball_front.png
+    - assets/images/magic_ball_back.png
+
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
