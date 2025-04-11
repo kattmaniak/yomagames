@@ -65,7 +65,15 @@ flutter:
     - assets/images/hat.png
     - assets/images/shirt.png
     - assets/images/pants.png
+    - assets/images/beanie.png
+    - assets/images/tiedye.png
+    - assets/images/dress.png
+    - assets/images/stockings.png
+    - assets/images/funnyhat.png
+    - assets/images/khakis.png
     - assets/images/finalize.png
+    - assets/images/replay.png
+    - assets/images/morgue.png
 
     - assets/images/metal_panel.png
     - assets/images/bolt.png
