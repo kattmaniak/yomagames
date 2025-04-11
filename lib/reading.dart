@@ -398,12 +398,6 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
     tarotDeck.shuffle(random);
     currentHand = tarotDeck.take(3).toList();
     
-    // Determine the next magic 8 ball prediction
-    // Make it slightly biased toward the tarot cards' alignment
-    int positiveCards = currentHand.where((card) => card.prediction == Alignment.positive).length;
-    int negativeCards = currentHand.where((card) => card.prediction == Alignment.negative).length;
-    int neutralCards = currentHand.where((card) => card.prediction == Alignment.neutral).length;
-    
     // Weight the selection based on cards
     List<Alignment> weightedPool = [];
     
