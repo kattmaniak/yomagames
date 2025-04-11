@@ -37,7 +37,6 @@ class _ReadingGameState extends State<ReadingGame> {
             const Text(
               'Welcome to Diviner\'s Occult Reading!',
             ),
-            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -47,7 +46,13 @@ class _ReadingGameState extends State<ReadingGame> {
               },
               child: const Text('Play'),
             ),
-            Text('Highest Streak: $highScore'),
+            Text('High score: $highScore'),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Back'),
+            ),
           ],
         ),
       ),
@@ -65,7 +70,18 @@ class ReadingGameScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Diviner\'s Occult Reading'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('Diviner\'s Occult Reading'),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Back'),
+                ),
+              ],
+            ),
             SizedBox(
               height: 700,
               width: 400,

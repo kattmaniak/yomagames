@@ -47,6 +47,12 @@ class _CinemaGameState extends State<CinemaGame> {
               child: const Text('Play'),
             ),
             Text('High score: $highScore'),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Back'),
+            ),
           ],
         ),
       ),
@@ -64,7 +70,18 @@ class CinemaGameScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Cinema Game Title'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('Cinema Game Title'),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Back'),
+                ),
+              ],
+            ),
             SizedBox(
               height: 700,
               width: 400,

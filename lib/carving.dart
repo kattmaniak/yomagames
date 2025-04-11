@@ -47,6 +47,12 @@ class _CarvingGameState extends State<CarvingGame> {
               child: const Text('Play'),
             ),
             Text('High score: $highScore'),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Back'),
+            ),
           ],
         ),
       ),
@@ -64,7 +70,18 @@ class CarvingGameScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Ice Sculptor\'s Daring Creation'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('Ice Sculptor\'s Daring Creation'),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Back'),
+                ),
+              ],
+            ),
             SizedBox(
               height: 700,
               width: 400,

@@ -45,6 +45,12 @@ class _WordsGameState extends State<WordsGame> {
               child: const Text('Play'),
             ),
             Text('High score: $highScore'),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Back'),
+            ),
           ],
         ),
       ),
@@ -62,7 +68,18 @@ class WordsGameScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Rhetorician\'s Exciting Scramble'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('Rhetorician\'s Exciting Scramble'),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Back'),
+                ),
+              ],
+            ),
             SizedBox(
               height: 700,
               width: 400,

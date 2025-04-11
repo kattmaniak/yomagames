@@ -46,6 +46,12 @@ class _HagglingGameState extends State<HagglingGame> {
               child: const Text('Play'),
             ),
             Text('High score: $_highScore'),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Back'),
+            ),
           ],
         ),
       ),
@@ -63,7 +69,18 @@ class HagglingGameScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Salesman\'s Tough Customer'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('Salesman\'s Tough Customer'),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Back'),
+                ),
+              ],
+            ),
             SizedBox(
               height: 700,
               width: 400,
