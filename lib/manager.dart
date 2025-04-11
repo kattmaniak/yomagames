@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 class ManagerGame extends StatefulWidget {
   const ManagerGame({super.key});
@@ -16,6 +17,7 @@ class ManagerGame extends StatefulWidget {
 
 class _ManagerGameState extends State<ManagerGame> {
   int highScore = 0;
+  final _controller = SuperTooltipController();
 
   _ManagerGameState() {
     // Load the high score from storage
@@ -33,9 +35,39 @@ class _ManagerGameState extends State<ManagerGame> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Welcome to Manager\'s Earnest Support!',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Welcome to Manager\'s Earnest Support!',
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await _controller.showTooltip();
+                  },
+                  child: SuperTooltip(
+                    showBarrier: true,
+                    controller: _controller,
+                    content: const Text(
+                      "This game is about making the right choices as a manager. Try to help your employees with their problems and earn points. The more scenarios you handle well, the better your score! Good luck!",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      child: const Icon(
+                        Icons.info,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -45,7 +77,6 @@ class _ManagerGameState extends State<ManagerGame> {
               },
               child: const Text('Play'),
             ),
-            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);

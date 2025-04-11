@@ -5,6 +5,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:scrabble_word_checker/scrabble_word_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 class WordsGame extends StatefulWidget {
   const WordsGame({super.key});
@@ -15,6 +16,7 @@ class WordsGame extends StatefulWidget {
 
 class _WordsGameState extends State<WordsGame> {
   int highScore = 0;
+  final _controller = SuperTooltipController();
 
   _WordsGameState() {
     // Load the high score from storage
@@ -32,9 +34,39 @@ class _WordsGameState extends State<WordsGame> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Welcome to Rhetorician\'s Exciting Scramble!',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Welcome to Rhetorician\'s Exciting Scramble!',
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await _controller.showTooltip();
+                  },
+                  child: SuperTooltip(
+                    showBarrier: true,
+                    controller: _controller,
+                    content: const Text(
+                      "This is a word game where you can form words from the letters provided. The game ends when the time runs out. Try to get the highest score possible!",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      child: const Icon(
+                        Icons.info,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -44,7 +76,6 @@ class _WordsGameState extends State<WordsGame> {
               },
               child: const Text('Play'),
             ),
-            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);

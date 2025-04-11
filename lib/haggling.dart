@@ -6,6 +6,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 class HagglingGame extends StatefulWidget {
   const HagglingGame({super.key});
@@ -15,13 +16,14 @@ class HagglingGame extends StatefulWidget {
 }
 
 class _HagglingGameState extends State<HagglingGame> {
-  int _highScore = 0;
+  int highScore = 0;
+  final _controller = SuperTooltipController();
 
   _HagglingGameState() {
     // Load the high score from storage
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        _highScore = prefs.getInt('highScoreHaggling') ?? 0;
+        highScore = prefs.getInt('highScoreHaggling') ?? 0;
       });
     });
   }
@@ -33,9 +35,39 @@ class _HagglingGameState extends State<HagglingGame> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Welcome to the Salesman\'s Tough Customer!',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Welcome to the Salesman\'s Tough Customer!',
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await _controller.showTooltip();
+                  },
+                  child: SuperTooltip(
+                    showBarrier: true,
+                    controller: _controller,
+                    content: const Text(
+                      "This is a game where you play as a salesman trying to haggle with a tough customer. Your goal is to sell items at the best price possible while keeping the customer interested. Use your negotiation skills to adjust the price and talk up the item to win over the customer. Good luck!",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      child: const Icon(
+                        Icons.info,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -45,7 +77,6 @@ class _HagglingGameState extends State<HagglingGame> {
               },
               child: const Text('Play'),
             ),
-            Text('High score: $_highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);

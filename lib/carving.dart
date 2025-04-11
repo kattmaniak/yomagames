@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/effects.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 
 class CarvingGame extends StatefulWidget {
@@ -17,6 +18,7 @@ class CarvingGame extends StatefulWidget {
 
 class _CarvingGameState extends State<CarvingGame> {
   int highScore = 0;
+  final _controller = SuperTooltipController();
 
   _CarvingGameState() {
     // Load the high score from storage
@@ -34,9 +36,39 @@ class _CarvingGameState extends State<CarvingGame> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Welcome to Ice Sculptor\'s Daring Creation!',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Welcome to Ice Sculptor\'s Daring Creation!',
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await _controller.showTooltip();
+                  },
+                  child: SuperTooltip(
+                    showBarrier: true,
+                    controller: _controller,
+                    content: const Text(
+                      "This game is about carving ice sculptures. Tap to carve the ice, but be careful not to tap too fast or the ice will crack! The goal is to carve the sculpture as quickly as possible without breaking it.",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      child: const Icon(
+                        Icons.info,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -46,7 +78,6 @@ class _CarvingGameState extends State<CarvingGame> {
               },
               child: const Text('Play'),
             ),
-            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);

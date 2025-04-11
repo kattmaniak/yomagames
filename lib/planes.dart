@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/game.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 import 'package:yomagames/haggling.dart';
 
 class PlanesGame extends StatefulWidget {
@@ -18,14 +19,14 @@ class PlanesGame extends StatefulWidget {
 }
 
 class _PlanesGameState extends State<PlanesGame> {
-
-  int _highScore = 0;
+  int highScore = 0;
+  final _controller = SuperTooltipController();
 
   _PlanesGameState() {
     // Load the high score from storage
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        _highScore = prefs.getInt('highScorePlanes') ?? 0;
+        highScore = prefs.getInt('highScorePlanes') ?? 0;
       });
     });
   }
@@ -37,9 +38,39 @@ class _PlanesGameState extends State<PlanesGame> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Welcome to the Pilot\'s Aerobatic Adventure!',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Welcome to Pilot\'s Aerobatic Adventure!',
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await _controller.showTooltip();
+                  },
+                  child: SuperTooltip(
+                    showBarrier: true,
+                    controller: _controller,
+                    content: const Text(
+                      "This is a game where you control a plane and perform aerobatic maneuvers. The goal is to follow the commands displayed on the screen. Use the buttons or arrow keys to control the plane's movements. Good luck!",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      child: const Icon(
+                        Icons.info,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -49,7 +80,6 @@ class _PlanesGameState extends State<PlanesGame> {
               },
               child: const Text('Play'),
             ),
-            Text('High score: $_highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);

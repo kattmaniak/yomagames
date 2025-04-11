@@ -11,6 +11,7 @@ import 'package:flame/input.dart';
 import 'package:flame/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 class DressUpGame extends StatefulWidget {
   const DressUpGame({super.key});
@@ -20,13 +21,14 @@ class DressUpGame extends StatefulWidget {
 }
 
 class _DressUpGameState extends State<DressUpGame> {
-  int _highScore = 0;
+  int highScore = 0;
+  final _controller = SuperTooltipController();
 
   _DressUpGameState() {
     // Load the high score from storage
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        _highScore = prefs.getInt('highScoreDressup') ?? 0;
+        highScore = prefs.getInt('highScoreDressup') ?? 0;
       });
     });
   }
@@ -38,9 +40,39 @@ class _DressUpGameState extends State<DressUpGame> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Welcome to Mortician\'s Deadly Dressup!',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Welcome to Mortician\'s Deadly Dressup!',
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await _controller.showTooltip();
+                  },
+                  child: SuperTooltip(
+                    showBarrier: true,
+                    controller: _controller,
+                    content: const Text(
+                      "This is a dress-up game where you can select different clothing pieces to dress up a character. The goal is to create the best outfit possible and score points based on your choices. You can drag and drop clothing pieces onto the character, and once you're done, you can finalize your outfit to see your score.",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      child: const Icon(
+                        Icons.info,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -50,7 +82,6 @@ class _DressUpGameState extends State<DressUpGame> {
               },
               child: const Text('Play'),
             ),
-            Text('High score: $_highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);

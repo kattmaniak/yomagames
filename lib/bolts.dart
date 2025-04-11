@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 class BoltsGame extends StatefulWidget {
   const BoltsGame({super.key});
@@ -21,6 +22,7 @@ class BoltsGame extends StatefulWidget {
 
 class _BoltsGameState extends State<BoltsGame> {
   int highScore = 0;
+  final _controller = SuperTooltipController();
 
   _BoltsGameState() {
     // Load the high score from storage
@@ -38,9 +40,39 @@ class _BoltsGameState extends State<BoltsGame> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Welcome to Mechanic\'s Messy Machines!',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Welcome to Mechanic\'s Messy Machines!',
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await _controller.showTooltip();
+                  },
+                  child: SuperTooltip(
+                    showBarrier: true,
+                    controller: _controller,
+                    content: const Text(
+                      "This is a game where you tap on bolts to score points. The bolts will appear at random positions and you have to tap them before they disappear. The game gets faster as you progress. Try to get the highest score possible!",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      child: const Icon(
+                        Icons.info,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -50,7 +82,6 @@ class _BoltsGameState extends State<BoltsGame> {
               },
               child: const Text('Play'),
             ),
-            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);

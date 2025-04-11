@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 class CinemaGame extends StatefulWidget {
   const CinemaGame({super.key});
@@ -17,6 +18,7 @@ class CinemaGame extends StatefulWidget {
 
 class _CinemaGameState extends State<CinemaGame> {
   int highScore = 0;
+  final _controller = SuperTooltipController();
 
   _CinemaGameState() {
     // Load the high score from storage
@@ -34,9 +36,39 @@ class _CinemaGameState extends State<CinemaGame> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Welcome to //Cinema Game Title//!',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Welcome to Cinema\'s Script Procurement!',
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await _controller.showTooltip();
+                  },
+                  child: SuperTooltip(
+                    showBarrier: true,
+                    controller: _controller,
+                    content: const Text(
+                      "This game is a fun and interactive way to create a story. The game will guide you through different moods and story segments, allowing you to craft a unique narrative. Choose wisely and enjoy the process!",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      child: const Icon(
+                        Icons.info,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -46,7 +78,6 @@ class _CinemaGameState extends State<CinemaGame> {
               },
               child: const Text('Play'),
             ),
-            Text('High score: $highScore'),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -73,7 +104,7 @@ class CinemaGameScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('Cinema Game Title'),
+                const Text('Cinema\'s Script Procurement'),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);

@@ -39,6 +39,7 @@ dependencies:
   flame: ^1.23.0
   flame_audio: ^2.11.3
   scrabble_word_checker: ^0.0.8
+  super_tooltip: ^2.0.9
 
 dev_dependencies:
   flutter_test:
