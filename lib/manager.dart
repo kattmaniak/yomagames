@@ -821,7 +821,7 @@ class TextButtonComponent extends PositionComponent with TapCallbacks {
 String wrapText(String text) {
   
     // Add newlines to wrap text that is too long
-    final int maxLineLength = 45;
+    const int maxLineLength = 45;
     List<String> lines = text.split('\n');
     
     for (int lineIndex = 0; lineIndex < lines.length; lineIndex++) {

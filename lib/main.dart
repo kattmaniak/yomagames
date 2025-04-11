@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yomagames/bolts.dart';
 import 'package:yomagames/carving.dart';
+import 'package:yomagames/cinema.dart';
 import 'package:yomagames/haggling.dart';
 import 'package:yomagames/manager.dart';
 import 'package:yomagames/reading.dart';
@@ -120,6 +121,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text('Diviner\'s Occult Reading'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CinemaGame()),
+                );
+              },
+              child: const Text('Cinema\'s Script Procurement'),
             ),
           ],
         ),
