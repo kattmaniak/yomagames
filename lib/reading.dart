@@ -431,9 +431,6 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
     add(positiveButton);
     add(neutralButton);
     add(negativeButton);
-    if(children.contains(revealButton)) {
-      remove(revealButton);
-    }
     if(children.contains(resultText)) {
       remove(resultText);
     }
@@ -512,6 +509,8 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
   
   Future<void> revealOutcome() async {
     if (gameOver || playerPrediction == null) return;
+    // Hide the reveal button
+    remove(revealButton);
     
     // Show the magic 8-ball result
     magicBall.sprite = await Sprite.load('magic_ball_front.png');

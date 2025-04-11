@@ -333,7 +333,34 @@ class WordsGameEngine extends FlameGame with TapCallbacks {
       return;
     }
     
-    if (wordChecker.isValidWord(currentWord.toLowerCase())) {
+    if(currentWord.toLowerCase() == 'yoma') {
+      score += 50;
+      scoreText.text = 'Score: $score';
+      
+      messageText.text = 'Yoma! +50 points';
+      
+      // Remove used letters and add new ones
+      for (final tile in selectedLetters) {
+        remove(tile);
+        letterTiles.remove(tile);
+      }
+      
+      // Replenish letters
+      int lettersToAdd = selectedLetters.length;
+      selectedLetters.clear();
+      
+      // Add new letters
+      for (int i = 0; i < lettersToAdd; i++) {
+        if (availableLetters.isNotEmpty) {
+          availableLetters.shuffle();
+          availableLetters.removeLast();
+        }
+      }
+      
+      createLetterTiles();
+      currentWord = '';
+      wordText.text = '';
+    } else if (wordChecker.isValidWord(currentWord.toLowerCase())) {
       // Valid word
       int wordScore = wordChecker.getWordValue(currentWord.toLowerCase());
       score += wordScore;
