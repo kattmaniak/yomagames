@@ -517,6 +517,141 @@ final List<Scenario> allScenarios = [
         'Cameron\'s well-prepared proposal gains attention and sparks interest.',
       ],
     ),
+    Scenario(
+      employeeName: 'Morgan',
+      problem: 'I found a significant error in last quarter\'s financial report that our VP already presented to the board. Should I bring it up now?',
+      options: [
+      'Transparently report the error through proper channels immediately',
+      'Keep quiet - exposing it now might damage our department\'s reputation',
+      'Discreetly fix it without drawing attention to the mistake',
+      ],
+      correctOption: 0,
+      outcomes: [
+      'While there\'s short-term embarrassment, your transparency builds long-term trust.',
+      'The error eventually surfaces during an audit, causing much bigger problems.',
+      'The inconsistency creates confusion in future reporting and raises questions about data integrity.',
+      ],
+    ),
+    Scenario(
+      employeeName: 'Dana',
+      problem: 'My project deadline conflicts with my child\'s important surgery. My backup colleague would get overtime pay we can\'t afford in our budget.',
+      options: [
+      'Approve the necessary overtime despite budget constraints',
+      'Find a compromise by partially delegating and working remotely during recovery',
+      'Postpone the surgery to meet the work deadline',
+      ],
+      correctOption: 1,
+      outcomes: [
+      'The budget overrun triggers an audit and questions about your financial management.',
+      'The balanced approach shows empathy while still meeting business needs.',
+      'Dana\'s personal sacrifice creates resentment and affects future performance.',
+      ],
+    ),
+    Scenario(
+      employeeName: 'Jae',
+      problem: 'I believe our new product has a potential safety issue, but raising it will delay launch and affect our quarterly targets.',
+      options: [
+      'Quietly document the concern but proceed with launch to meet targets',
+      'Delay the launch until the issue is properly investigated',
+      'Launch on schedule - the issue is probably minor and can be fixed in an update',
+      ],
+      correctOption: 1,
+      outcomes: [
+      'The documented concern becomes evidence of negligence when problems arise.',
+      'While targets are missed, you avoid a potentially costly recall and litigation.',
+      'The safety issue causes product failures and potential legal liability.',
+      ],
+    ),
+    Scenario(
+      employeeName: 'Riley',
+      problem: 'I discovered a colleague is using company resources for their side business. They\'re going through financial hardship after medical issues.',
+      options: [
+      'Have a private conversation about proper boundaries and alternatives',
+      'Report them immediately according to company policy',
+      'Look the other way - everyone deserves a second chance',
+      ],
+      correctOption: 0,
+      outcomes: [
+      'The colleague appreciates the chance to correct their behavior without severe consequences.',
+      'The colleague is terminated and the team becomes fearful of making any mistakes.',
+      'The behavior escalates and is discovered by compliance, implicating you for not reporting it.',
+      ],
+    ),
+    Scenario(
+      employeeName: 'Blake',
+      problem: 'My innovative solution could save the company millions, but it would automate away the jobs of several loyal employees.',
+      options: [
+      'Withhold the idea to protect people\'s jobs',
+      'Present the solution with a transition plan to retrain affected employees',
+      'Implement the solution - business efficiency must come first',
+      ],
+      correctOption: 1,
+      outcomes: [
+      'A competitor implements a similar solution, putting even more jobs at risk.',
+      'The company benefits from innovation while demonstrating commitment to its people.',
+      'The efficiency gains are overshadowed by plummeting morale and increased turnover.',
+      ],
+    ),
+    Scenario(
+      employeeName: 'Sam',
+      problem: 'I\'ve been offered my dream role at a competitor, but my departure would leave our understaffed team in crisis.',
+      options: [
+      'Ask them to decline the offer out of loyalty to the team',
+      'Encourage them to take the opportunity immediately',
+      'Work with them on a transition plan that considers both their career and the team\'s needs',
+      ],
+      correctOption: 2,
+      outcomes: [
+      'Sam stays but becomes resentful, eventually leaving without notice anyway.',
+      'The sudden departure creates a productivity collapse your team can\'t recover from.',
+      'The managed transition allows both Sam\'s growth and team continuity.',
+      ],
+    ),
+    Scenario(
+      employeeName: 'Avery',
+      problem: 'I\'ve been asked to lead a project that I don\'t feel qualified for. What should I do?',
+      options: [
+        'Decline the offer and let someone else take it on',
+        'Accept the challenge and seek mentorship from experienced colleagues',
+        'Fake it till you make it - just go for it',
+      ],
+      correctOption: 1,
+      outcomes: [
+        'Avery misses a valuable growth opportunity.',
+        'Avery learns and grows, gaining respect from peers.',
+        'Avery struggles and the project suffers as a result.',
+      ],
+    ),  
+    Scenario(
+      employeeName: 'Jordan',
+      problem: 'I\'ve been asked to work overtime on a project that I don\'t think is necessary. What should I do?',
+      options: [
+        'Refuse to work overtime and let the project fail',
+        'Work overtime and hope it leads to a promotion',
+        'Discuss the necessity of the project with your manager',
+      ],
+      correctOption: 2,
+      outcomes: [
+        'The project fails and Jordan is blamed.',
+        'Jordan works hard but feels unappreciated.',
+        'The project is reassessed and resources are allocated appropriately.',
+      ],
+    ),
+    Scenario(
+      employeeName: 'Taylor',
+      problem: 'I\'ve been asked to mentor a new employee who is struggling. What should I do?',
+      options: [
+        'Ignore the request and let them figure it out',
+        'Take the time to mentor them and help them succeed',
+        'Complain about the extra work to your manager',
+      ],
+      correctOption: 1,
+      outcomes: [
+        'The new employee continues to struggle and morale drops.',
+        'The new employee thrives and becomes a valuable team member.',
+        'Taylor feels overwhelmed and unappreciated.',
+      ],
+    ),
     // Add more scenarios as needed
   ];
 
