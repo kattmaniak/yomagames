@@ -89,36 +89,49 @@ class _WordsGameState extends State<WordsGame> {
   }
 }
 
+double wu = 1.0;
+
 class WordsGameScreen extends StatelessWidget {
   const WordsGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    if(deviceWidth > 400) {
+      deviceWidth = 400;
+    }
+    wu = deviceWidth / 400;
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Rhetorician\'s Exciting Scramble'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Back'),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 700,
-              width: 400,
-              child: GameWidget(
-                game: WordsGameEngine(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Rhetorician\'s Exciting Scramble'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Back'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 700*wu,
+                width: 400*wu,
+                child: GameWidget(
+                  game: WordsGameEngine(),
+                ),
+              ),
+              SizedBox(
+                height: 400*wu,
+                width: 700*wu,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -167,7 +180,7 @@ class WordsGameEngine extends FlameGame with TapCallbacks {
     // Add UI components
     scoreText = TextComponent(
       text: 'Score: 0',
-      position: Vector2(25, 40),
+      position: Vector2(25*wu, 40*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 24,
@@ -179,7 +192,7 @@ class WordsGameEngine extends FlameGame with TapCallbacks {
     
     timerText = TextComponent(
       text: 'Time: 60',
-      position: Vector2(375, 40),
+      position: Vector2(375*wu, 40*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 24,
@@ -192,7 +205,7 @@ class WordsGameEngine extends FlameGame with TapCallbacks {
     
     wordText = TextComponent(
       text: '',
-      position: Vector2(200, 100),
+      position: Vector2(200*wu, 100*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 32,
@@ -205,7 +218,7 @@ class WordsGameEngine extends FlameGame with TapCallbacks {
     
     messageText = TextComponent(
       text: 'Form words from the letters below!',
-      position: Vector2(200, 150),
+      position: Vector2(200*wu, 150*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 18,
@@ -223,14 +236,14 @@ class WordsGameEngine extends FlameGame with TapCallbacks {
     // Add submit and clear buttons
     final submitButton = RoundedButton(
       text: 'Submit',
-      position: Vector2(25, 600),
+      position: Vector2(25*wu, 600*wu),
       onTap: submitWord,
       color: Colors.green,
     )..anchor = Anchor.centerLeft;
     
     final clearButton = RoundedButton(
       text: 'Clear',
-      position: Vector2(375, 600),
+      position: Vector2(375*wu, 600*wu),
       onTap: clearSelection,
       color: Colors.red,
     )..anchor = Anchor.centerRight;
@@ -279,10 +292,10 @@ class WordsGameEngine extends FlameGame with TapCallbacks {
     
     // Create new tiles
     const int tilesPerRow = 6;
-    const double tileSize = 50.0;
-    const double startX = 25.0;
-    const double startY = 300.0;
-    const double padding = 10.0;
+    double tileSize = 50.0*wu;
+    double startX = 25.0*wu;
+    double startY = 300.0*wu;
+    double padding = 10.0*wu;
     
     for (int i = 0; i < 18; i++) {
       if (i >= availableLetters.length) break;
@@ -328,7 +341,7 @@ class WordsGameEngine extends FlameGame with TapCallbacks {
   void submitWord() {
     if (gameOver || currentWord.isEmpty) return;
     
-    if (currentWord.length < 3) {
+    if (currentWord.length < 2) {
       messageText.text = 'Word too short! Try again.';
       return;
     }
@@ -421,7 +434,7 @@ class WordsGameEngine extends FlameGame with TapCallbacks {
     // Add play again button
     final playAgainButton = RoundedButton(
       text: 'Play Again',
-      position: Vector2(200, 525),
+      position: Vector2(200*wu, 525*wu),
       onTap: resetGame,
       color: Colors.blue,
     )..anchor = Anchor.center;
@@ -471,7 +484,7 @@ class LetterTile extends PositionComponent with TapCallbacks {
       ..strokeWidth = 2.0;
     
     final rect = Rect.fromLTWH(0, 0, size.x, size.y);
-    final rrect = RRect.fromRectAndRadius(rect, const Radius.circular(10));
+    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(10*wu));
     
     canvas.drawRRect(rrect, paint);
     canvas.drawRRect(rrect, borderPaint);
@@ -493,8 +506,8 @@ class LetterTile extends PositionComponent with TapCallbacks {
     textPainter.paint(
       canvas,
       Offset(
-        (size.x - textPainter.width) / 2,
-        (size.y - textPainter.height) / 2,
+        (size.x - textPainter.width)*wu / 2,
+        (size.y - textPainter.height)*wu / 2,
       ),
     );
   }
@@ -515,7 +528,7 @@ class RoundedButton extends PositionComponent with TapCallbacks {
     required Vector2 position,
     required this.onTap,
     required this.color,
-  }) : super(position: position, size: Vector2(120, 50));
+  }) : super(position: position, size: Vector2(120*wu, 50*wu));
   
   @override
   void render(Canvas canvas) {
@@ -525,7 +538,7 @@ class RoundedButton extends PositionComponent with TapCallbacks {
       ..style = PaintingStyle.fill;
     
     final rect = Rect.fromLTWH(0, 0, size.x, size.y);
-    final rrect = RRect.fromRectAndRadius(rect, const Radius.circular(15));
+    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(15*wu));
     
     canvas.drawRRect(rrect, paint);
     

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/input.dart';
 import 'package:flame/rendering.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/game.dart';
 import 'package:super_tooltip/super_tooltip.dart';
-import 'package:yomagames/haggling.dart';
 
 class PlanesGame extends StatefulWidget {
   const PlanesGame({super.key});
@@ -93,36 +93,49 @@ class _PlanesGameState extends State<PlanesGame> {
   }
 }
 
+double wu = 1.0; // width unit, used to scale the game to fit the screen
+
 class PlanesGameScreen extends StatelessWidget {
   const PlanesGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    if(deviceWidth > 400) {
+      deviceWidth = 400;
+    }
+    wu = deviceWidth / 400;
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Pilot\'s Aerobatic Adventure'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Back'),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 700,
-              width: 400,
-              child: GameWidget(
-                game: PlanesGameEngine(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Pilot\'s Aerobatic Adventure'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Back'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 700*wu,
+                width: 400*wu,
+                child: GameWidget(
+                  game: PlanesGameEngine(),
+                ),
+              ),
+              SizedBox(
+                height: 400*wu,
+                width: 700*wu,
+              ),
+            ],
+          ),
         ),
       ),
       
@@ -161,8 +174,8 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
     _spriteSheet = SpriteSheet(image: await Flame.images.load('plane.png'), srcSize: Vector2(32,32));
     _plane = SpriteAnimationComponent(
       animation: _spriteSheet.createAnimation(row: 0, stepTime: 0.2),
-      position: Vector2(136, 186),
-      size: Vector2.all(128),
+      position: Vector2(136*wu, 186*wu),
+      size: Vector2.all(128*wu),
       playing: false
     );
 
@@ -172,15 +185,15 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
 
     _scoreText = TextComponent(
       text: "Score: $score",
-      position: Vector2(200, 700-8),
+      position: Vector2(200*wu, (700-8)*wu),
       scale: Vector2(2,2),
       anchor: Anchor.bottomCenter,
     );
     add(_scoreText);
 
     _leftButton = SpriteButtonComponent(
-      position: Vector2(68, 700-72-64-64),
-      size: Vector2.all(128),
+      position: Vector2(68*wu, (700-72-64-64)*wu),
+      size: Vector2.all(128*wu),
       onPressed: handleLeft,
       button: Sprite(
         await Flame.images.load('left.png'),
@@ -196,8 +209,8 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
     );
 
     _rightButton = SpriteButtonComponent(
-      position: Vector2(400-68, 700-72-64-64),
-      size: Vector2.all(128),
+      position: Vector2((400-68)*wu, (700-72-64-64)*wu),
+      size: Vector2.all(128*wu),
       onPressed: handleRight,
       button: Sprite(
         await Flame.images.load('right.png'),
@@ -213,8 +226,8 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
     );
 
     _upButton = SpriteButtonComponent(
-      position: Vector2(200, 700-68-8-128-64),
-      size: Vector2.all(128),
+      position: Vector2(200*wu, (700-68-8-128-64)*wu),
+      size: Vector2.all(128*wu),
       onPressed: handleUp,
       button: Sprite(
         await Flame.images.load('right.png'),
@@ -231,8 +244,8 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
     );
 
     _downButton = SpriteButtonComponent(
-      position: Vector2(200, 700-72-64),
-      size: Vector2.all(128),
+      position: Vector2(200*wu, (700-72-64)*wu),
+      size: Vector2.all(128*wu),
       onPressed: handleDown,
       button: Sprite(
         await Flame.images.load('right.png'),
@@ -272,7 +285,7 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
           angle = 1.5*remainingTime;
         }
         Rotate3DDecorator rotate = Rotate3DDecorator(
-          center: Vector2.all(64),
+          center: Vector2.all(64*wu),
           angleX: angle,
           perspective: 0.002,
         );
@@ -286,7 +299,7 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
           angle = 1.5*remainingTime;
         }
         Rotate3DDecorator rotate = Rotate3DDecorator(
-          center: Vector2.all(64),
+          center: Vector2.all(64*wu),
           angleX: -angle,
           perspective: 0.002,
         );
@@ -303,7 +316,7 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
       }
       _commandText = TextComponent(
         text: commands.map((e) => _commands[e]).join(" "),
-        position: Vector2(200, 150),
+        position: Vector2(200*wu, 150*wu),
         scale: Vector2(2,2),
         anchor: Anchor.bottomCenter,
       );
@@ -337,7 +350,7 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
           fail = true;
           _commandText = TextComponent(
             text: "Game over!",
-            position: Vector2(200, 200),
+            position: Vector2(200*wu, 200*wu),
             scale: Vector2(2,2),
             anchor: Anchor.bottomCenter,
           );
@@ -362,7 +375,7 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
               commands.clear();
               score = 0;
             },
-          )..position = Vector2(200, 250)
+          )..position = Vector2(200*wu, 250*wu)
             ..anchor = Anchor.center
             ..scale = Vector2(2,2);
           add(retryButton);
@@ -438,5 +451,37 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
       }
     }
     return KeyEventResult.ignored;
+  }
+}
+
+
+class TextButtonComponent extends TextComponent with TapCallbacks {
+  @override
+  final String text;
+  final Color buttonColor;
+  final VoidCallback onPressed;
+
+  TextButtonComponent({
+    required this.text,
+    required this.buttonColor,
+    required this.onPressed,
+  }) : super (
+    text: text,
+    position: Vector2(0, 0),
+    textRenderer: TextPaint(
+      style: TextStyle(
+        fontSize: 23,
+        color: Colors.white,
+        backgroundColor: buttonColor
+      ),
+    ),
+  ) {
+    anchor = Anchor.center;
+  }
+
+  @override
+  bool onTapDown(TapDownEvent event) {
+    onPressed();
+    return true;
   }
 }

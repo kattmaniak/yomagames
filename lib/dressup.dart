@@ -95,36 +95,49 @@ class _DressUpGameState extends State<DressUpGame> {
   }
 }
 
+double wu = 1.0; // width unit for scaling
+
 class DressUpGameScreen extends StatelessWidget {
   const DressUpGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    if(deviceWidth > 400) {
+      deviceWidth = 400;
+    }
+    wu = deviceWidth / 400;
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Mortician\'s Deadly Dressup'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Back'),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 700,
-              width: 400,
-              child: GameWidget(
-                game: DressUpGameEngine(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Mortician\'s Deadly Dressup'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Back'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 700*wu,
+                width: 400*wu,
+                child: GameWidget(
+                  game: DressUpGameEngine(),
+                ),
+              ),
+              SizedBox(
+                height: 400*wu,
+                width: 700*wu,
+              ),
+            ],
+          ),
         ),
       ),
       
@@ -216,8 +229,8 @@ Future<ClothingPiece> loadClothingPiece(String imagePath) async {
       final color = colorMap[pieceData.style]![Random().nextInt(colorMap[pieceData.style]!.length)];
       return ClothingPiece(
         sprite: sprite,
-        width: sprite.originalSize.x,
-        height: sprite.originalSize.y,
+        width: sprite.originalSize.x*wu,
+        height: sprite.originalSize.y*wu,
         type: pieceData.type,
         style: pieceData.style,
         color: color,
@@ -255,28 +268,28 @@ class DressUpGameEngine extends FlameGame {
 
     final background = SpriteComponent()
       ..sprite = Sprite(await Flame.images.load('morgue.png'), srcSize: Vector2(400, 700), srcPosition: Vector2.zero())
-      ..size = Vector2(400, 700)
+      ..size = Vector2(400*wu, 700*wu)
       ..anchor = Anchor.center
-      ..position = Vector2(200, 350);
+      ..position = Vector2(200*wu, 350*wu);
     add(background);
 
     // load assets
     body = SpriteComponent()
       ..sprite = Sprite(await Flame.images.load('body.png'), srcSize: Vector2(100, 250), srcPosition: Vector2.zero())
-      ..size = Vector2(100, 250)
+      ..size = Vector2(100*wu, 250*wu)
       ..anchor = Anchor.center
-      ..position = Vector2(200, 350)
+      ..position = Vector2(200*wu, 350*wu)
       ..scale = Vector2(2, 2);
 
     add(body);
 
     List<Vector2> positions = [
-      Vector2(75, 100),
-      Vector2(75, 300),
-      Vector2(75, 500),
-      Vector2(325, 100),
-      Vector2(325, 300),
-      Vector2(325, 500),
+      Vector2(75*wu, 100*wu),
+      Vector2(75*wu, 300*wu),
+      Vector2(75*wu, 500*wu),
+      Vector2(325*wu, 100*wu),
+      Vector2(325*wu, 300*wu),
+      Vector2(325*wu, 500*wu),
     ];
 
     //todo load random pieces?
@@ -305,14 +318,14 @@ class DressUpGameEngine extends FlameGame {
     finalizeButton = ButtonComponent(
       button: SpriteComponent(
         sprite: Sprite(await Flame.images.load('finalize.png'), srcSize: Vector2(200, 50), srcPosition: Vector2.zero()),
-        size: Vector2(200, 50),
+        size: Vector2(200*wu, 50*wu),
       ),
       buttonDown: SpriteComponent(
         sprite: Sprite(await Flame.images.load('finalize.png'), srcSize: Vector2(200, 50), srcPosition: Vector2(0, 50)),
-        size: Vector2(200, 50),
+        size: Vector2(200*wu, 50*wu),
       ),
-      size: Vector2(200, 50),
-      position: Vector2(100, 640),
+      size: Vector2(200*wu, 50*wu),
+      position: Vector2(100*wu, 640*wu),
       onPressed: calculateScore,
     );
     add(finalizeButton);
@@ -320,14 +333,14 @@ class DressUpGameEngine extends FlameGame {
     replayButton = ButtonComponent(
       button: SpriteComponent(
         sprite: Sprite(await Flame.images.load('replay.png'), srcSize: Vector2(200, 50), srcPosition: Vector2.zero()),
-        size: Vector2(200, 50),
+        size: Vector2(200*wu, 50*wu),
       ),
       buttonDown: SpriteComponent(
         sprite: Sprite(await Flame.images.load('replay.png'), srcSize: Vector2(200, 50), srcPosition: Vector2(0, 50)),
-        size: Vector2(200, 50),
+        size: Vector2(200*wu, 50*wu),
       ),
-      size: Vector2(200, 50),
-      position: Vector2(100, 640),
+      size: Vector2(200*wu, 50*wu),
+      position: Vector2(100*wu, 640*wu),
       onPressed: playAgain,
     );
   }
@@ -366,7 +379,7 @@ class DressUpGameEngine extends FlameGame {
 
     TextComponent scoreText = TextComponent(
       text: 'Score: $score',
-      position: Vector2(200, 50),
+      position: Vector2(200*wu, 50*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 24,
@@ -403,22 +416,22 @@ class DressUpGameEngine extends FlameGame {
   }
 
   RectangleComponent hatHitbox = RectangleComponent(
-    position: Vector2(200,135),
-    size: Vector2(30, 30),
+    position: Vector2(200*wu,135*wu),
+    size: Vector2(30*wu, 30*wu),
     anchor: Anchor.center,
     paint: Paint()..color = Colors.white.withAlpha(0),
   );
 
   RectangleComponent shirtHitbox = RectangleComponent(
-    position: Vector2(200,300),
-    size: Vector2(30, 100),
+    position: Vector2(200*wu,300*wu),
+    size: Vector2(30*wu, 100*wu),
     anchor: Anchor.center,
     paint: Paint()..color = Colors.white.withAlpha(0),
   );
 
   RectangleComponent pantsHitbox = RectangleComponent(
-    position: Vector2(200,450),
-    size: Vector2(30, 70),
+    position: Vector2(200*wu,450*wu),
+    size: Vector2(30*wu, 70*wu),
     anchor: Anchor.center,
     paint: Paint()..color = Colors.white.withAlpha(0),
   );
@@ -573,13 +586,13 @@ class ClothingPiece extends SpriteComponent with DragCallbacks {
     Vector2 newPosition = position + event.localDelta;
     if(newPosition.x - width < 0) {
       newPosition.x = width;
-    } else if(newPosition.x + width > 400) {
-      newPosition.x = 400 - width;
+    } else if(newPosition.x + width > 400*wu) {
+      newPosition.x = 400*wu - width;
     }
     if(newPosition.y - height < 0) {
       newPosition.y = height;
-    } else if(newPosition.y + height > 700) {
-      newPosition.y = 700 - height;
+    } else if(newPosition.y + height > 700*wu) {
+      newPosition.y = 700*wu - height;
     }
     position = newPosition;
   }

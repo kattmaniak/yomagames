@@ -91,36 +91,49 @@ class _CinemaGameState extends State<CinemaGame> {
   }
 }
 
+double wu = 1.0; // Global variable for width unit
+
 class CinemaGameScreen extends StatelessWidget {
   const CinemaGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    if(deviceWidth > 400) {
+      deviceWidth = 400;
+    }
+    wu = deviceWidth / 400;
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Cinema\'s Script Procurement'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Back'),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 700,
-              width: 400,
-              child: GameWidget(
-                game: CinemaGameEngine(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Cinema\'s Script Procurement'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Back'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 700*wu,
+                width: 400*wu,
+                child: GameWidget(
+                  game: CinemaGameEngine(),
+                ),
+              ),
+              SizedBox(
+                height: 400*wu,
+                width: 700*wu,
+              ),
+            ],
+          ),
         ),
       ),
       
@@ -415,7 +428,7 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
     // Initialize UI components
     scoreText = TextComponent(
       text: 'Score: 0',
-      position: Vector2(200, 30),
+      position: Vector2(200*wu, 30*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 24,
@@ -427,7 +440,7 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
     
     roundText = TextComponent(
       text: 'Story 1 of $maxRounds... Starring:',
-      position: Vector2(200, 60),
+      position: Vector2(200*wu, 60*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 20,
@@ -439,7 +452,7 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
     
     characterText = TextComponent(
       text: '',
-      position: Vector2(200, 100),
+      position: Vector2(200*wu, 100*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 22,
@@ -452,7 +465,7 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
     
     storyText = TextComponent(
       text: 'Select mood for the beginning of your story',
-      position: Vector2(200, 350),
+      position: Vector2(200*wu, 350*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 18,
@@ -464,7 +477,7 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
     
     feedbackText = TextComponent(
       text: '',
-      position: Vector2(200, 150),
+      position: Vector2(200*wu, 150*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 16,
@@ -477,10 +490,10 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
     // Create mood buttons
     final dramaticButton = TextButtonComponent(
       text: 'Dramatic',
-      position: Vector2(90, 600),
+      position: Vector2(90*wu, 600*wu),
       buttonColor: Colors.red,
       onPressed: () => selectMood(StoryMood.dramatic),
-      buttonSize: Vector2(100, 50),
+      buttonSize: Vector2(100*wu, 50*wu),
     );
 
     // final dramaticButton = ColoredButtonComponent(
@@ -496,10 +509,10 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
     
     final comedicButton = TextButtonComponent(
       text: 'Comedic',
-      position: Vector2(200, 600),
+      position: Vector2(200*wu, 600*wu),
       buttonColor: Colors.green,
       onPressed: () => selectMood(StoryMood.comedic),
-      buttonSize: Vector2(100, 50),
+      buttonSize: Vector2(100*wu, 50*wu),
     );
 
     // final comedicButton = ButtonComponent(
@@ -523,10 +536,10 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
     
     final scaryButton = TextButtonComponent(
       text: 'Scary',
-      position: Vector2(310, 600),
+      position: Vector2(310*wu, 600*wu),
       buttonColor: Colors.purple,
       onPressed: () => selectMood(StoryMood.scary),
-      buttonSize: Vector2(100, 50),
+      buttonSize: Vector2(100*wu, 50*wu),
     );
 
     // final scaryButton = ButtonComponent(
@@ -554,10 +567,10 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
 
     nextButton = TextButtonComponent(
       text: 'Next',
-      position: Vector2(200, 540),
+      position: Vector2(200*wu, 540*wu),
       buttonColor: Colors.blue,
       onPressed: nextSection,
-      buttonSize: Vector2(150, 50),
+      buttonSize: Vector2(150*wu, 50*wu),
     );
 
     // nextButton = ButtonComponent(
@@ -721,10 +734,10 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
 
     playAgainButton = TextButtonComponent(
       text: 'Play Again',
-      position: Vector2(200, 550),
+      position: Vector2(200*wu, 550*wu),
       buttonColor: Colors.green,
       onPressed: resetGame,
-      buttonSize: Vector2(150, 50),
+      buttonSize: Vector2(150*wu, 50*wu),
     );
 
     // playAgainButton = ButtonComponent(
@@ -813,7 +826,7 @@ class TextButtonComponent extends PositionComponent with TapCallbacks {
     // Draw button background
     final rect = Rect.fromLTWH(0, 0, size.x, size.y);
     canvas.drawRRect(
-      RRect.fromRectAndRadius(rect, const Radius.circular(10)),
+      RRect.fromRectAndRadius(rect, Radius.circular(10*wu)),
       Paint()..color = buttonColor
     );
 

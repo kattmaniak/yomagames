@@ -90,36 +90,49 @@ class _ManagerGameState extends State<ManagerGame> {
   }
 }
 
+double wu = 1.0; // Global variable for width unit
+
 class ManagerGameScreen extends StatelessWidget {
   const ManagerGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    if(deviceWidth > 400) {
+      deviceWidth = 400;
+    }
+    wu = deviceWidth / 400;
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Manager\'s Earnest Support'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Back'),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 700,
-              width: 400,
-              child: GameWidget(
-                game: ManagerGameEngine(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Manager\'s Earnest Support'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Back'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 700*wu,
+                width: 400*wu,
+                child: GameWidget(
+                  game: ManagerGameEngine(),
+                ),
+              ),
+              SizedBox(
+                height: 400*wu,
+                width: 700*wu,
+              ),
+            ],
+          ),
         ),
       ),
       
@@ -539,13 +552,13 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     // Header
     add(RectangleComponent(
       position: Vector2(0, 0),
-      size: Vector2(400, 80),
+      size: Vector2(400*wu, 80*wu),
       paint: Paint()..color = const Color(0xFF2C3E50),
     ));
     
     add(TextComponent(
       text: 'Manager\'s Earnest Support',
-      position: Vector2(200, 40),
+      position: Vector2(200*wu, 40*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 24,
@@ -559,7 +572,7 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     // Score display
     scoreText = TextComponent(
       text: 'Score: 0',
-      position: Vector2(20, 100),
+      position: Vector2(20*wu, 100*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 20,
@@ -573,7 +586,7 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     // Timer display
     timerText = TextComponent(
       text: 'Time: 60s',
-      position: Vector2(300, 100),
+      position: Vector2(300*wu, 100*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 20,
@@ -587,7 +600,7 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     // Employee name
     employeeNameText = TextComponent(
       text: '',
-      position: Vector2(200, 150),
+      position: Vector2(200*wu, 150*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 22,
@@ -602,7 +615,7 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     // Scenario text
     scenarioText = TextComponent(
       text: '',
-      position: Vector2(200, 250),
+      position: Vector2(200*wu, 250*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 18,
@@ -618,7 +631,7 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     for (int i = 0; i < 3; i++) {
       final button = TextButtonComponent(
         text: '',
-        position: Vector2(200, 400 + i * 80),
+        position: Vector2(200*wu, (400 + i * 80)*wu),
         buttonColor: const Color(0xFF3498DB),
         onPressed: () => selectOption(i),
       );
@@ -629,7 +642,7 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     // Outcome text
     outcomeText = TextComponent(
       text: '',
-      position: Vector2(200, 650),
+      position: Vector2(200*wu, 650*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 18,
@@ -739,7 +752,7 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     // Show final score
     final gameOverText = TextComponent(
       text: 'Game Over!',
-      position: Vector2(200, 300),
+      position: Vector2(200*wu, 300*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 36,
@@ -753,7 +766,7 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     
     final finalScoreText = TextComponent(
       text: 'Final Score: $score',
-      position: Vector2(200, 360),
+      position: Vector2(200*wu, 360*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 28,
@@ -767,7 +780,7 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     
     final scenariosText = TextComponent(
       text: 'Scenarios Handled: $scenariosHandled',
-      position: Vector2(200, 400),
+      position: Vector2(200*wu, 400*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 20,
@@ -781,7 +794,7 @@ class ManagerGameEngine extends FlameGame with TapCallbacks {
     // Play again button
     final playAgainButton = TextButtonComponent(
       text: 'Play Again',
-      position: Vector2(200, 500),
+      position: Vector2(200*wu, 500*wu),
       buttonColor: const Color(0xFF2ECC71),
       onPressed: resetGame,
     );
@@ -832,7 +845,7 @@ class TextButtonComponent extends PositionComponent with TapCallbacks {
     ),
   ), super(
     position: position,
-    size: Vector2(350, 60),
+    size: Vector2(350*wu, 60*wu),
     anchor: Anchor.center,
   );
   
@@ -843,7 +856,7 @@ class TextButtonComponent extends PositionComponent with TapCallbacks {
     // Draw button background
     final rect = Rect.fromLTWH(0, 0, size.x, size.y);
     canvas.drawRRect(
-      RRect.fromRectAndRadius(rect, const Radius.circular(10)),
+      RRect.fromRectAndRadius(rect, Radius.circular(10*wu)),
       Paint()..color = buttonColor
     );
 

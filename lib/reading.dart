@@ -7,7 +7,6 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_tooltip/super_tooltip.dart';
-import 'package:yomagames/manager.dart';
 
 class ReadingGame extends StatefulWidget {
   const ReadingGame({super.key});
@@ -91,36 +90,49 @@ class _ReadingGameState extends State<ReadingGame> {
   }
 }
 
+double wu = 1.0; // Width unit for scaling
+
 class ReadingGameScreen extends StatelessWidget {
   const ReadingGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    if(deviceWidth > 400) {
+      deviceWidth = 400;
+    }
+    wu = deviceWidth / 400;
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Diviner\'s Occult Reading'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Back'),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 700,
-              width: 400,
-              child: GameWidget(
-                game: ReadingGameEngine(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Diviner\'s Occult Reading'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Back'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 700*wu,
+                width: 400*wu,
+                child: GameWidget(
+                  game: ReadingGameEngine(),
+                ),
+              ),
+              SizedBox(
+                height: 400*wu,
+                width: 700*wu,
+              ),
+            ],
+          ),
         ),
       ),
       
@@ -200,14 +212,14 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
     // Add background
     final background = SpriteComponent()
       ..sprite = await Sprite.load('divination_table.png')
-      ..size = Vector2(400, 700)
+      ..size = Vector2(400*wu, 700*wu)
       ..position = Vector2(0, 0);
     add(background);
     
     // Add score display
     scoreText = TextComponent(
       text: 'Streak: 0',
-      position: Vector2(200, 50),
+      position: Vector2(200*wu, 50*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 24,
@@ -222,7 +234,7 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
     // Add instruction text
     instructionText = TextComponent(
       text: 'Read your tarot cards and predict the magic ball outcome!',
-      position: Vector2(200, 100),
+      position: Vector2(200*wu, 100*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 16,
@@ -236,8 +248,8 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
     // Add magic 8-ball (initially showing back)
     magicBall = SpriteComponent()
       ..sprite = await Sprite.load('magic_ball_back.png')
-      ..size = Vector2(120, 120)
-      ..position = Vector2(200, 200)
+      ..size = Vector2(120*wu, 120*wu)
+      ..position = Vector2(200*wu, 200*wu)
       ..anchor = Anchor.center;
     add(magicBall);
     
@@ -245,39 +257,39 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
     positiveButton = ButtonComponent(
       button: SpriteComponent(
         sprite: await Sprite.load('positive_button.png'),
-        size: Vector2(100, 50),
+        size: Vector2(100*wu, 50*wu),
       ),
       buttonDown: SpriteComponent(
         sprite: await Sprite.load('positive_button_down.png'),
-        size: Vector2(100, 50),
+        size: Vector2(100*wu, 50*wu),
       ),
-      position: Vector2(40, 600),
+      position: Vector2(40*wu, 600*wu),
       onPressed: () => makePrediction(Alignment.positive),
     );
     
     neutralButton = ButtonComponent(
       button: SpriteComponent(
         sprite: await Sprite.load('neutral_button.png'),
-        size: Vector2(100, 50),
+        size: Vector2(100*wu, 50*wu),
       ),
       buttonDown: SpriteComponent(
         sprite: await Sprite.load('neutral_button_down.png'),
-        size: Vector2(100, 50),
+        size: Vector2(100*wu, 50*wu),
       ),
-      position: Vector2(150, 600),
+      position: Vector2(150*wu, 600*wu),
       onPressed: () => makePrediction(Alignment.neutral),
     );
     
     negativeButton = ButtonComponent(
       button: SpriteComponent(
         sprite: await Sprite.load('negative_button.png'),
-        size: Vector2(100, 50),
+        size: Vector2(100*wu, 50*wu),
       ),
       buttonDown: SpriteComponent(
         sprite: await Sprite.load('negative_button_down.png'),
-        size: Vector2(100, 50),
+        size: Vector2(100*wu, 50*wu),
       ),
-      position: Vector2(260, 600),
+      position: Vector2(260*wu, 600*wu),
       onPressed: () => makePrediction(Alignment.negative),
     );
     
@@ -289,13 +301,13 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
     revealButton = ButtonComponent(
       button: SpriteComponent(
         sprite: await Sprite.load('reveal_button.png'),
-        size: Vector2(180, 60),
+        size: Vector2(180*wu, 60*wu),
       ),
       buttonDown: SpriteComponent(
         sprite: await Sprite.load('reveal_button_down.png'),
-        size: Vector2(180, 60),
+        size: Vector2(180*wu, 60*wu),
       ),
-      position: Vector2(200, 650),
+      position: Vector2(200*wu, 650*wu),
       onPressed: revealOutcome,
     )..anchor = Anchor.center
     ;// Initially hidden
@@ -303,7 +315,7 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
     // Result text (initially hidden)
     resultText = TextComponent(
       text: '',
-      position: Vector2(200, 200),
+      position: Vector2(200*wu, 200*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 20,
@@ -476,8 +488,8 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
     removeWhere((component) => component is TarotCardComponent);
     
     // Add new tarot cards
-    double cardWidth = 100;
-    double spacing = 10;
+    double cardWidth = 100*wu;
+    double spacing = 10*wu;
     double totalWidth = (cardWidth * 3) + (spacing * 2);
     double startX = (size.x - totalWidth) / 2;
     
@@ -485,8 +497,8 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
       TarotCard card = currentHand[i];
       final cardComponent = TarotCardComponent(
         card: card,
-        position: Vector2(startX + (i * (cardWidth + spacing)), 420),
-        size: Vector2(cardWidth, 160),
+        position: Vector2(startX + (i * (cardWidth + spacing)), 420*wu),
+        size: Vector2(cardWidth, 160*wu),
       );
       add(cardComponent);
     }
@@ -528,7 +540,7 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
       scoreText.text = 'Streak: $score';
       
       // Add success effect
-      add(SuccessMagicEffect()..position = Vector2(200, 350));
+      add(SuccessMagicEffect()..position = Vector2(200*wu, 350*wu));
       
       // Update high score if needed
       SharedPreferences.getInstance().then((prefs) {
@@ -545,7 +557,7 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
     } else {
       // Failure!
       gameOver = true;
-      add(FailureMagicEffect()..position = Vector2(200, 350));
+      add(FailureMagicEffect()..position = Vector2(200*wu, 350*wu));
       
       // Show game over message
       instructionText.text = 'Game Over! Your final streak: $score';
@@ -555,7 +567,7 @@ class ReadingGameEngine extends FlameGame with TapCallbacks {
       // Add play again button
       TextButtonComponent playAgainButton = TextButtonComponent(
         text: 'Play Again',
-        position: Vector2(200, 650),
+        position: Vector2(200*wu, 650*wu),
         onPressed: _resetGame,
         buttonColor: Colors.blueGrey,
       );
@@ -602,7 +614,7 @@ class TarotCardComponent extends PositionComponent with TapCallbacks {
     // Add name text
     final nameText = TextComponent(
       text: card.name,
-      position: Vector2(size.x / 2, 10),
+      position: Vector2(size.x / 2, 10*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 12,
@@ -628,7 +640,7 @@ class TarotCardComponent extends PositionComponent with TapCallbacks {
 class SuccessMagicEffect extends SpriteAnimationComponent {
   SuccessMagicEffect()
       : super(
-          size: Vector2(150, 150),
+          size: Vector2(150*wu, 150*wu),
           anchor: Anchor.center,
         );
 
@@ -653,7 +665,7 @@ class SuccessMagicEffect extends SpriteAnimationComponent {
 class FailureMagicEffect extends SpriteAnimationComponent {
   FailureMagicEffect()
       : super(
-          size: Vector2(150, 150),
+          size: Vector2(150*wu, 150*wu),
           anchor: Anchor.center,
         );
 
@@ -673,4 +685,89 @@ class FailureMagicEffect extends SpriteAnimationComponent {
     animationTicker?.completed.then((_) => removeFromParent());
     return super.onLoad();
   }
+}
+
+class TextButtonComponent extends PositionComponent with TapCallbacks {
+  String text;
+  final Color buttonColor;
+  final VoidCallback onPressed;
+  final TextPaint textPaint;
+  bool visible = true;
+  
+  TextButtonComponent({
+    required this.text,
+    required Vector2 position,
+    required this.buttonColor,
+    required this.onPressed,
+    Color textColor = Colors.white,
+  }) : textPaint = TextPaint(
+    style: TextStyle(
+      fontSize: 16,
+      color: textColor,
+      fontWeight: FontWeight.bold,
+    ),
+  ), super(
+    position: position,
+    size: Vector2(350*wu, 60*wu),
+    anchor: Anchor.center,
+  );
+  
+  @override
+  void render(Canvas canvas) {
+    if (!visible) return;
+    
+    // Draw button background
+    final rect = Rect.fromLTWH(0, 0, size.x*wu, size.y*wu);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(rect, Radius.circular(10*wu)),
+      Paint()..color = buttonColor
+    );
+
+    text = wrapText(text);
+    
+    // Draw text centered
+    textPaint.render(
+      canvas, 
+      text,
+      Vector2(size.x*wu / 2, size.y*wu / 2),
+      anchor: Anchor.center
+    );
+  }
+  
+  @override
+  void onTapDown(TapDownEvent event) {
+    if (visible) {
+      onPressed();
+    }
+  }
+}
+
+String wrapText(String text) {
+  
+    // Add newlines to wrap text that is too long
+    const int maxLineLength = 45;
+    List<String> lines = text.split('\n');
+    
+    for (int lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+      String line = lines[lineIndex];
+      if (line.length <= maxLineLength) continue;
+      
+      int lastSpace = -1;
+      for (int i = 1; i < line.length; i++) {
+        if (line[i] == ' ') {
+          lastSpace = i;
+        }
+        
+        if (i > maxLineLength && lastSpace != -1) {
+          // Insert newline at the last space
+          String firstPart = line.substring(0, lastSpace);
+          String secondPart = line.substring(lastSpace + 1);
+          lines[lineIndex] = firstPart;
+          lines.insert(lineIndex + 1, secondPart);
+          break;
+        }
+      }
+    }
+    
+    return lines.join('\n');
 }

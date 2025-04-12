@@ -95,36 +95,49 @@ class _BoltsGameState extends State<BoltsGame> {
   }
 }
 
+double wu = 1.0; // Width unit for scaling
+
 class BoltsGameScreen extends StatelessWidget {
   const BoltsGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    if(deviceWidth > 400) {
+      deviceWidth = 400;
+    }
+    wu = deviceWidth / 400;
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Mechanic\'s Messy Machines'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Back'),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 700,
-              width: 400,
-              child: GameWidget(
-                game: BoltsGameEngine(),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Mechanic\'s Messy Machines'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Back'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 700*wu,
+                width: 400*wu,
+                child: GameWidget(
+                  game: BoltsGameEngine(),
+                ),
+              ),
+              SizedBox(
+                height: 400*wu,
+                width: 700*wu,
+              ),
+            ],
+          ),
         ),
       ),
       
@@ -139,7 +152,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
   double spawnTimer = 0;
   double boltInterval = 2.0; // Time between bolts in seconds
   int score = 0;
-  int combo = 0;
+  int combo = 5;
   bool gameOver = false;
   
   // UI components
@@ -161,7 +174,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
     // Load background
     background = SpriteComponent()
       ..sprite = await Sprite.load('metal_panel.png')
-      ..size = Vector2(400, 700)
+      ..size = Vector2(400*wu, 700*wu)
       ..position = Vector2(0, 0);
     add(background);
     
@@ -174,20 +187,20 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
           fontSize: 24,
         ),
       ),
-      position: Vector2(20, 20),
+      position: Vector2(20*wu, 20*wu),
     );
     add(scoreText);
     
     // Add combo text
     comboText = TextComponent(
-      text: 'Combo: 0',
+      text: 'Health: 5',
       textRenderer: TextPaint(
         style: const TextStyle(
           color: Colors.yellow, 
           fontSize: 20,
         ),
       ),
-      position: Vector2(20, 50),
+      position: Vector2(20*wu, 50*wu),
     );
     add(comboText);
   }
@@ -205,10 +218,10 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
       onBeat = true;
 
       // Audio cue for beat
-      FlameAudio.play('beat.wav');
+      FlameAudio.play('beat.wav', volume: 0.5);
       
       // Visual cue for beat
-      add(BeatIndicator()..position = Vector2(200, 50));
+      add(BeatIndicator()..position = Vector2(200*wu, 50*wu));
     } else {
       onBeat = false;
     }
@@ -234,19 +247,19 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
         removeBolt(bolt, false);
         
         // Check for game over
-        if (--combo < -5) {
+        if (--combo < 1) {
           endGame();
         }
         
-        comboText.text = 'Combo: $combo';
+        comboText.text = 'Health: $combo';
       }
     }
   }
   
   void spawnBolt() {
     // Create a new bolt at a random position
-    final x = 50 + random.nextDouble() * 300;
-    final y = 100 + random.nextDouble() * 550;
+    final x = 50*wu + random.nextDouble() * 300*wu;
+    final y = 100*wu + random.nextDouble() * 550*wu;
     
     final bolt = Bolt()
       ..position = Vector2(x, y)
@@ -268,7 +281,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
       score++;
       combo++;
       scoreText.text = 'Score: $score';
-      comboText.text = 'Combo: $combo';
+      comboText.text = 'Health: $combo';
     } else {
       // Add failure visual
       add(FailureEffect()..position = bolt.position.clone());
@@ -288,7 +301,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
     // Check if tap hits any bolt
     bool hitAny = false;
     for (var bolt in [...bolts]) {
-      if (_pointInCircle(bolt.position, 30, event.localPosition)) {
+      if (_pointInCircle(bolt.position, 30*wu, event.localPosition)) {
         removeBolt(bolt, hitOnBeat);
         hitAny = true;
         break;
@@ -298,10 +311,10 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
     // If tapped but didn't hit any bolt or not on beat
     if (!hitAny || !hitOnBeat) {
       combo--;
-      comboText.text = 'Combo: $combo';
+      comboText.text = 'Health: $combo';
       
       // Check for game over
-      if (combo < -5) {
+      if (combo < 1) {
         endGame();
       }
     }
@@ -323,7 +336,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
           fontSize: 40,
         ),
       ),
-      position: Vector2(200, 400),
+      position: Vector2(200*wu, 400*wu),
       anchor: Anchor.center,
     ));
     
@@ -335,7 +348,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
           fontSize: 30,
         ),
       ),
-      position: Vector2(200, 450),
+      position: Vector2(200*wu, 450*wu),
       anchor: Anchor.center,
     ));
     
@@ -347,7 +360,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
           fontSize: 20,
         ),
       ),
-      position: Vector2(200, 500),
+      position: Vector2(200*wu, 500*wu),
       anchor: Anchor.center,
     ));
     
@@ -379,7 +392,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
 }
 
 class Bolt extends SpriteComponent {
-  Bolt() : super(size: Vector2(60, 60), anchor: Anchor.center);
+  Bolt() : super(size: Vector2(60*wu, 60*wu), anchor: Anchor.center);
   
   double remainingTime = 3.0;
   
@@ -421,7 +434,7 @@ class BeatIndicator extends CircleComponent {
 }
 
 class SuccessEffect extends SpriteAnimationComponent {
-  SuccessEffect() : super(size: Vector2(80, 80), anchor: Anchor.center);
+  SuccessEffect() : super(size: Vector2(80*wu, 80*wu), anchor: Anchor.center);
   
   @override
   FutureOr<void> onLoad() async {
@@ -456,7 +469,7 @@ class SuccessEffect extends SpriteAnimationComponent {
 }
 
 class FailureEffect extends SpriteAnimationComponent {
-  FailureEffect() : super(size: Vector2(80, 80), anchor: Anchor.center);
+  FailureEffect() : super(size: Vector2(80*wu, 80*wu), anchor: Anchor.center);
   
   @override
   FutureOr<void> onLoad() async {

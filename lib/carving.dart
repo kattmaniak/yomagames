@@ -91,36 +91,49 @@ class _CarvingGameState extends State<CarvingGame> {
   }
 }
 
+double wu = 1.0; // Global variable for scaling
+
 class CarvingGameScreen extends StatelessWidget {
   const CarvingGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    if(deviceWidth > 400) {
+      deviceWidth = 400;
+    }
+    wu = deviceWidth / 400;
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Ice Sculptor\'s Daring Creation'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Back'),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 700,
-              width: 400,
-              child: GameWidget(
-                game: CarvingGameEngine(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Ice Sculptor\'s Daring Creation'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Back'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 700*wu,
+                width: 400*wu,
+                child: GameWidget(
+                  game: CarvingGameEngine(),
+                ),
+              ),
+              SizedBox(
+                height: 400*wu,
+                width: 700*wu,
+              ),
+            ],
+          ),
         ),
       ),
       
@@ -159,21 +172,21 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     // Load sculpture sprite (initially invisible)
     sculpture = SpriteComponent()
       ..sprite = await Sprite.load('ice_sculpture.png')
-      ..size = Vector2(300, 400)
-      ..position = Vector2(200, 250)
+      ..size = Vector2(300*wu, 400*wu)
+      ..position = Vector2(200*wu, 250*wu)
       ..anchor = Anchor.topCenter;
     
     // Load ice block sprite
     iceBlock = SpriteComponent()
       ..sprite = await Sprite.load('ice_block.png')
-      ..size = Vector2(300, 400)
-      ..position = Vector2(200, 650)
+      ..size = Vector2(300*wu, 400*wu)
+      ..position = Vector2(200*wu, 650*wu)
       ..anchor = Anchor.bottomCenter;
     
     // Add speed meter
     speedText = TextComponent(
       text: 'Carving Speed: 0',
-      position: Vector2(200, 220),
+      position: Vector2(200*wu, 220*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 24,
@@ -187,7 +200,7 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     // Add score text
     scoreText = TextComponent(
       text: 'Time: 0.0s',
-      position: Vector2(200, 185),
+      position: Vector2(200*wu, 185*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 20,
@@ -200,7 +213,7 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     // Add instruction text
     instructionText = TextComponent(
       text: 'Tap to start carving!\nDon\'t tap too quickly or the ice will crack!',
-      position: Vector2(200, 50),
+      position: Vector2(200*wu, 50*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 20,
@@ -338,7 +351,7 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     // Show game over message
     final gameOverText = TextComponent(
       text: 'Oh no! The ice cracked!',
-      position: Vector2(200, 100),
+      position: Vector2(200*wu, 100*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 30,
@@ -351,7 +364,7 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     
     final retryText = TextComponent(
       text: 'Tap to try again',
-      position: Vector2(200, 150),
+      position: Vector2(200*wu, 150*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 20,
@@ -374,7 +387,7 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     // Show completion message
     final successText = TextComponent(
       text: 'Masterpiece Complete!',
-      position: Vector2(200, 100),
+      position: Vector2(200*wu, 100*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 30,
@@ -387,7 +400,7 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     
     final finalScoreText = TextComponent(
       text: 'Final Score: $score',
-      position: Vector2(200, 50),
+      position: Vector2(200*wu, 50*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 24,
@@ -399,7 +412,7 @@ class CarvingGameEngine extends FlameGame with TapCallbacks {
     
     final retryText = TextComponent(
       text: 'Tap to play again',
-      position: Vector2(200, 150),
+      position: Vector2(200*wu, 150*wu),
       textRenderer: TextPaint(
         style: const TextStyle(
           fontSize: 20,

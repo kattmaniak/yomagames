@@ -90,36 +90,49 @@ class _HagglingGameState extends State<HagglingGame> {
   }
 }
 
+double wu = 1.0; // Width unit for scaling
+
 class HagglingGameScreen extends StatelessWidget {
   const HagglingGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    if(deviceWidth > 400) {
+      deviceWidth = 400;
+    }
+    wu = deviceWidth / 400;
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Salesman\'s Tough Customer'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Back'),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 700,
-              width: 400,
-              child: GameWidget(
-                game: HagglingGameEngine(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Salesman\'s Tough Customer'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Back'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 700*wu,
+                width: 400*wu,
+                child: GameWidget(
+                  game: HagglingGameEngine(),
+                ),
+              ),
+              SizedBox(
+                height: 400*wu,
+                width: 700*wu,
+              ),
+            ],
+          ),
         ),
       ),
       
@@ -230,35 +243,35 @@ class HagglingGameEngine extends FlameGame {
     // UI components
     itemNameText = TextComponent(
       text: currentItem.name,
-      position: Vector2(200, 100),
+      position: Vector2(200*wu, 100*wu),
       textRenderer: TextPaint(style: const TextStyle(fontSize: 24, color: Colors.black)),
       anchor: Anchor.center,
     );
     
     itemDescText = TextComponent(
       text: currentItem.description,
-      position: Vector2(200, 140),
+      position: Vector2(200*wu, 140*wu),
       textRenderer: TextPaint(style: const TextStyle(fontSize: 16, color: Colors.black54)),
       anchor: Anchor.center,
     );
     
     priceText = TextComponent(
       text: '\$${currentPrice.toStringAsFixed(2)}',
-      position: Vector2(200, 200),
+      position: Vector2(200*wu, 200*wu),
       textRenderer: TextPaint(style: const TextStyle(fontSize: 32, color: Colors.green)),
       anchor: Anchor.center,
     );
     
     patienceText = TextComponent(
       text: patienceString(patienceRemaining),
-      position: Vector2(200, 250),
+      position: Vector2(200*wu, 250*wu),
       textRenderer: TextPaint(style: const TextStyle(fontSize: 16, color: Colors.red)),
       anchor: Anchor.center,
     );
     
     customerResponseText = TextComponent(
       text: '${currentCustomer.name} is looking at the ${currentItem.name}...',
-      position: Vector2(200, 300),
+      position: Vector2(200*wu, 300*wu),
       textRenderer: TextPaint(style: const TextStyle(fontSize: 16, color: Colors.black)),
       anchor: Anchor.center,
     );
@@ -266,7 +279,7 @@ class HagglingGameEngine extends FlameGame {
 
     talkUpText = TextComponent(
       text: '',
-      position: Vector2(200, 550),
+      position: Vector2(200*wu, 550*wu),
       textRenderer: TextPaint(style: const TextStyle(fontSize: 16, color: Colors.black)),
       anchor: Anchor.center,
     );
@@ -278,34 +291,34 @@ class HagglingGameEngine extends FlameGame {
       buttonColor: const Color(0xFF4CAF50),
       onPressed: () => adjustPrice(5),
     )
-    ..position = Vector2(150, 400);
+    ..position = Vector2(150*wu, 400*wu);
     
     final increaseLargeButton = TextButtonComponent(
       text: '+\$20',
       buttonColor: const Color(0xFF4CAF50),
       onPressed: () => adjustPrice(20),
     )
-    ..position = Vector2(250, 400);
+    ..position = Vector2(250*wu, 400*wu);
     
     final decreaseSmallButton = TextButtonComponent(
       text: '-\$5',
       buttonColor: const Color(0xFFFF5722),
       onPressed: () => adjustPrice(-5),
     )
-    ..position = Vector2(150, 460);
+    ..position = Vector2(150*wu, 460*wu);
     
     final decreaseLargeButton = TextButtonComponent(
       text: '-\$20',
       buttonColor: const Color(0xFFFF5722),
       onPressed: () => adjustPrice(-20),
     )
-    ..position = Vector2(250, 460);
+    ..position = Vector2(250*wu, 460*wu);
 
     talkUpButton = TextButtonComponent(
       text: 'Talk Up Customer',
       buttonColor: const Color(0xFF2196F3),
       onPressed: talkUpCustomer,
-    )..position = Vector2(200, 600);
+    )..position = Vector2(200*wu, 600*wu);
 
     
     finalizeButton = TextButtonComponent(
@@ -313,7 +326,7 @@ class HagglingGameEngine extends FlameGame {
       buttonColor: const Color(0xFF2196F3),
       onPressed: finalizeOffer,
     )
-    ..position = Vector2(200, 650);
+    ..position = Vector2(200*wu, 650*wu);
     
     add(itemNameText);
     add(itemDescText);
@@ -429,7 +442,7 @@ class HagglingGameEngine extends FlameGame {
   void showResult() {
     final resultText = TextComponent(
       text: 'Score: $score',
-      position: Vector2(200, 550),
+      position: Vector2(200*wu, 550*wu),
       textRenderer: TextPaint(style: const TextStyle(fontSize: 32, color: Colors.blue)),
       anchor: Anchor.center,
     );
@@ -439,7 +452,7 @@ class HagglingGameEngine extends FlameGame {
       buttonColor: const Color(0xFF4CAF50),
       onPressed: resetGame,
     )
-    ..position = Vector2(200, 600);
+    ..position = Vector2(200*wu, 600*wu);
 
     remove(talkUpButton);
     remove(talkUpText);
