@@ -152,7 +152,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
   double spawnTimer = 0;
   double boltInterval = 2.0; // Time between bolts in seconds
   int score = 0;
-  int combo = 5;
+  int health = 5;
   bool gameOver = false;
   
   // UI components
@@ -247,11 +247,11 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
         removeBolt(bolt, false);
         
         // Check for game over
-        if (--combo < 1) {
+        if (--health < 1) {
           endGame();
         }
         
-        comboText.text = 'Health: $combo';
+        comboText.text = 'Health: $health';
       }
     }
   }
@@ -279,9 +279,9 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
       
       // Update score
       score++;
-      combo++;
+      health++;
       scoreText.text = 'Score: $score';
-      comboText.text = 'Health: $combo';
+      comboText.text = 'Health: $health';
     } else {
       // Add failure visual
       add(FailureEffect()..position = bolt.position.clone());
@@ -310,11 +310,11 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
     
     // If tapped but didn't hit any bolt or not on beat
     if (!hitAny || !hitOnBeat) {
-      combo--;
-      comboText.text = 'Health: $combo';
+      health--;
+      comboText.text = 'Health: $health';
       
       // Check for game over
-      if (combo < 1) {
+      if (health < 1) {
         endGame();
       }
     }
@@ -380,7 +380,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
     // Reset game variables
     bolts.clear();
     score = 0;
-    combo = 0;
+    health = 5;
     gameOver = false;
     spawnTimer = 0;
     boltInterval = 2.0;
