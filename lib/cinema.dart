@@ -603,16 +603,21 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
       add(button);
     }
     
+    charactersCopy = List.from(characters);
+
     // Start the first round
     startNewStory();
   }
+
+  List<Character> charactersCopy = [];
   
   void startNewStory() {
     currentRound++;
     roundText.text = 'Story $currentRound of $maxRounds... Starring:';
     
     // Select random character
-    currentCharacter = characters[Random().nextInt(characters.length)];
+    currentCharacter = charactersCopy[Random().nextInt(characters.length)];
+    charactersCopy.remove(currentCharacter);
     characterText.text = currentCharacter!.name;
     
     selectedSegments = [];
@@ -787,6 +792,8 @@ class CinemaGameEngine extends FlameGame with TapCallbacks {
       add(button);
     }
     
+    charactersCopy = List.from(characters);
+
     // Start new game
     startNewStory();
   }
