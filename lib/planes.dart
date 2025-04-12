@@ -150,7 +150,8 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
 
   int rotating = 0; // 0 none, 1 up, -1 down
 
-  final List<String> _commands = ["L","R","U","D"]; // todo change to left, right, up, down when icons are added
+  final List<String> _commands = ["\u{2190}","\u{2192}","\u{2191}","\u{2193}"]; // todo change to left, right, up, down when icons are added
+  
   late TextComponent _commandText;
   List<int> commands = [];
   List<int> playerCommands = [];
@@ -182,6 +183,14 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
     _plane.decorator.addLast(Decorator());
 
     add(_plane);
+
+    final TextComponent unicodeIconLoadBodge = TextComponent(
+      text: "L\u{2190}",
+      position: Vector2(-200*wu, -150*wu),
+      scale: Vector2(2,2),
+      anchor: Anchor.bottomCenter,
+    );
+    add(unicodeIconLoadBodge);
 
     _scoreText = TextComponent(
       text: "Score: $score",
@@ -316,9 +325,9 @@ class PlanesGameEngine extends FlameGame with KeyboardEvents {
       }
       _commandText = TextComponent(
         text: commands.map((e) => _commands[e]).join(" "),
-        position: Vector2(200*wu, 150*wu),
+        position: Vector2(200*wu, 140*wu),
         scale: Vector2(2,2),
-        anchor: Anchor.bottomCenter,
+        anchor: Anchor.center,
       );
       _commandText.text += " ";
       for(int i = 11; i < _commandText.text.length; i+=12) {
