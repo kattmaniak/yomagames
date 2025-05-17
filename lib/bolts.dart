@@ -233,7 +233,7 @@ class BoltsGameEngine extends FlameGame with TapCallbacks {
       spawnBolt();
       
       // Make the game more challenging over time
-      if (boltInterval > 0.5) {
+      if (boltInterval > 0.2) {
         boltInterval *= 0.98;
       }
     }
