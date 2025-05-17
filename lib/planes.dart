@@ -44,6 +44,12 @@ class _PlanesGameState extends State<PlanesGame> {
                 const Text(
                   'Welcome to Pilot\'s Aerobatic Adventure!',
                 ),
+                const Text(
+                  'Hidden text \u{2190} \u{2192} \u{2191} \u{2193}',
+                  style: TextStyle(
+                    fontSize: 0,
+                  ),
+                ),
                 GestureDetector(
                   onTap: () async {
                     await _controller.showTooltip();
@@ -52,7 +58,7 @@ class _PlanesGameState extends State<PlanesGame> {
                     showBarrier: true,
                     controller: _controller,
                     content: const Text(
-                      "This is a game where you control a plane and perform aerobatic maneuvers. The goal is to follow the commands displayed on the screen. Use the buttons or arrow keys to control the plane's movements. Good luck!",
+                      "This is a game where you control a plane and perform aerobatic maneuvers. The goal is to follow the commands (\u{2190} \u{2192} \u{2191} \u{2193}) displayed on the screen. Use the buttons or arrow keys to control the plane's movements. Good luck!",
                       softWrap: true,
                       style: TextStyle(
                         color: Colors.black,
